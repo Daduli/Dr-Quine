@@ -1,26 +1,39 @@
-COLLEEN_SRC = Colleen.c
-GRACE_SRC = Grace.c
-COLLEEN_OBJ = $(COLLEEN_SRC:.c=.o)
-GRACE_OBJ = $(GRACE_SRC:.c=.o)
+NAME = dr_quine_c
+NAME1 = Colleen
+NAME2 = Grace
+NAME3 = Sully
+
+COLLEEN_SRC += Colleen.c
+GRACE_SRC += Grace.c
+SULLY_SRC += Sully.c
+COLLEEN_OBJ = $(COLLEEN_SRC:%.c=%.o)
+GRACE_OBJ = $(GRACE_SRC:%.c=%.o)
+SULLY_OBJ = $(SULLY_SRC:%.c=%.o)
 
 CC = gcc
 FLAGS = -Wall -Wextra -Werror	
 
-%.c: %.o
-	$(CC) $(FLAGS) $<
+all: $(NAME)
 
-all: colleen grace
+$(NAME): $(NAME1) $(NAME2) $(NAME3)
 
-colleen: $(COLLEEN_OBJ)
-	$(CC) $(FLAGS) $(COLLEEN_SRC) -o Colleen
+$(NAME1): $(COLLEEN_OBJ)
+	$(CC) $(FLAGS) -o $@ $^
 
-grace: $(GRACE_OBJ)
-	$(CC) $(FLAGS) $(GRACE_SRC) -o Grace
+$(NAME2): $(GRACE_OBJ)
+	$(CC) $(FLAGS) -o $@ $^
+
+$(NAME3): $(SULLY_OBJ)
+	$(CC) $(FLAGS) -o $@ $^
+
+%.o: %.c
+	$(CC) $(FLAGS) -c -o $@ $<
+
 clean:
-	rm -f *.o
+	@rm -f *.o Grace_kid.c Sully_*
 
 fclean: clean
-	rm -f Colleen Grace
+	@rm -f $(NAME1) $(NAME2) $(NAME3)
 
 re: fclean all
 
